@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>POS System – Bootstrap 5 Version</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+    <style>
+      :root {
+        --bg: #0f1535;           /* top bar */
+        --ink: #0a0f1e;          /* headings */
+        --muted: #7b8296;        /* captions */
+        --card: #ffffff;         /* cards */
+        --ui: #eef1f6;          /* soft bg */
+        --line: #e7ebf2;         /* borders */
+        --brand: #2a6cf6;        /* primary */
+        --good: #12bf55;        /* success */
+        --danger: #ff5d5d;       /* destructive */
+        --warning: #ffcc66;
+        --radius: 16px;
+        --shadow: 0 8px 24px rgba(15,21,53,.06), 0 2px 6px rgba(15,21,53,.08);
+      }
+
+      body {
+        font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+        background: #fff;
+        color: var(--ink);
+      }
+
+      .wrap {
+        background: linear-gradient(180deg, var(--bg) 0 88px, #fff 88px);
+        min-height: 100vh;
+      }
+
+      /* Header */
+      .header {
+        height: 88px;
+        background-color: var(--bg);
+      }
+
+      .logo {
+        width: 30px;
+        height: 30px;
+        border-radius: 8px;
+        background: linear-gradient(135deg, #6aa8ff, #2a6cf6);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-weight: 800;
+      }
+
+      .title {
+        color: #fff;
+        font-weight: 600;
+      }
+
+      .search input {
+        border-radius: 999px;
+        border: none;
+        padding-left: 40px;
+        background: rgba(255,255,255,.1);
+        color: #fff;
+      }
+
+      .search input::placeholder {
+        color: #cdd3e2;
+      }
+
+      .search .bi {
+        position: absolute;
+        left: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #cdd3e2;
+      }
+
+      .icon-btn {
+        width: 34px;
+        height: 34px;
+        border-radius: 10px;
+        background: rgba(255,255,255,.12);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #cdd3e2;
+        border: 1px solid rgba(255,255,255,.18);
+      }
+
+      .pill {
+        background: #2d73ff;
+        color: #fff;
+        border: none;
+        border-radius: 12px;
+        padding: 10px 14px;
+        font-weight: 600;
+      }
+
+      /* Sidebar */
+      .sidebar {
+        background: #fff;
+        border-radius: 20px;
+        padding: 12px;
+        box-shadow: var(--shadow);
+      }
+
+      .bubble {
+        width: 44px;
+        height: 44px;
+        border-radius: 14px;
+        background: #f3f6fb;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #8892a7;
+        border: 1px solid var(--line);
+        margin-bottom: 16px;
+      }
+
+      .bubble.active {
+        background: #e7f0ff;
+        color: var(--brand);
+        border-color: #cfe0ff;
+      }
+
+      /* Categories */
+      .categories {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        padding-bottom: 4px;
+      }
+
+      .cat {
+        min-width: 140px;
+        background: #fff;
+        border: 1px solid var(--line);
+        border-radius: 20px;
+        padding: 14px 16px;
+        box-shadow: var(--shadow);
+        cursor: pointer;
+      }
+
+      .cat.active {
+        outline: 2px solid #d7e6ff;
+      }
+
+      .cat .name {
+        display: block;
+        margin-top: 8px;
+        font-weight: 600;
+      }
+
+      .cat .meta {
+        display: block;
+        color: var(--muted);
+        font-size: 12px;
+        margin-top: 2px;
+      }
+
+      /* Products grid */
+      .food {
+        width: 100%;
+        aspect-ratio: 1;
+        border-radius: 16px;
+        background: #f9fbff;
+        border: 1px dashed #e6eaf2;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 12px;
+      }
+
+      .food .plate {
+        width: 80%;
+        aspect-ratio: 1;
+        border-radius: 50%;
+        background: #eee;
+      }
+
+      .name {
+        font-weight: 600;
+        text-align: center;
+      }
+
+      .cook {
+        color: var(--muted);
+        font-size: 12px;
+        text-align: center;
+        margin-top: 2px;
+      }
+
+      .price {
+        color: var(--good);
+        font-weight: 700;
+        text-align: center;
+        margin-top: 8px;
+      }
+
+      /* Order panel */
+      .panel {
+        background: #fff;
+        border-radius: 20px;
+        border: 1px solid var(--line);
+        box-shadow: var(--shadow);
+        position: sticky;
+        top: 20px;
+      }
+
+      .order-line {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 0;
+        border-bottom: 1px dashed #e9eef5;
+      }
+
+      .thumb {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        background: #f1f4fa;
+      }
+
+      .qty {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-right: 8px;
+      }
+
+      .qty button {
+        width: 24px;
+        height: 24px;
+        border-radius: 8px;
+        border: 1px solid var(--line);
+        background: #f6f8fc;
+      }
+
+      .price-sm {
+        color: #1b2559;
+        font-weight: 600;
+      }
+
+      .summary {
+        background: #12bf55;
+        color: #fff;
+        border-radius: 16px;
+        padding: 14px 16px;
+        margin-top: 12px;
+      }
+
+      .summary .row {
+        display: flex;
+        justify-content: space-between;
+        margin: 4px 0;
+        color: #d7fbe7;
+      }
+
+      .summary .total {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 8px;
+        font-weight: 800;
+        color: #fff;
+      }
+
+      .paybtn {
+        border: 1px solid var(--line);
+        background: #f7f9fd;
+        border-radius: 14px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 6px;
+        padding: 14px;
+      }
+
+      .paybtn.active {
+        outline: 2px solid #d4f1e1;
+        background: #f2fff7;
+      }
+
+      .print {
+        margin-top: 14px;
+        width: 100%;
+        border: none;
+        background: #1971ff;
+        color: #fff;
+        border-radius: 12px;
+        padding: 14px 16px;
+        font-weight: 700;
+      }
+
+      /* Responsive adjustments */
+      @media (max-width: 992px) {
+        .panel {
+          position: static;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .search {
+          display: none;
+        }
+
+        .sidebar {
+          flex-direction: row;
+          justify-content: space-between;
+          gap: 10px;
+          padding: 10px 12px;
+          width: 100%;
+          border-radius: 16px;
+          position: sticky;
+          bottom: 12px;
+          background: #fff;
+        }
+
+        .bubble {
+          width: 48px;
+          height: 48px;
+          margin-bottom: 0;
+        }
+      }
+
+      .card {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 20px;
+        padding: 20px;
+        box-shadow: var(--shadow);
+      }
+
+
+      /* Add this to your style section */
+      .flex-item {
+        flex: 0 0 calc(25% - 12px); /* 4 items per row with gap */
+        max-width: 235px;
+      }
+
+      @media (max-width: 992px) {
+        .flex-item {
+          flex: 0 0 calc(33.333% - 12px); /* 3 items per row on medium screens */
+        }
+      }
+
+      @media (max-width: 768px) {
+        .flex-item {
+          flex: 0 0 calc(50% - 12px); /* 2 items per row on small screens */
+        }
+      }
+
+      @media (max-width: 576px) {
+        .flex-item {
+          flex: 0 0 100%; /* 1 item per row on extra small screens */
+          max-width: 235px;
+          margin: 0 auto;
+        }
+      }
+
+      /* Desktop Layout */
+      @media (min-width: 992px) {
+        #checkout-summary {
+          position: absolute;
+          right: 20px;
+          top: 120px;
+        }
+      }
+
+      /* Mobile Layout */
+      @media (max-width: 991.98px) {
+        #checkout-summary {
+          position: static;
+          width: 100%;
+          max-width: 100%;
+          margin-top: 20px;
+          order: 1; /* Ensure it appears below content on mobile */
+        }
+      }
+
+
+      #products-list {
+        /* Base grid for all screens */
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+
+      .flex-item {
+        /* Default for mobile (2 columns) */
+        flex: 0 0 calc(50% - 6px); /* 50% width minus half the gap */
+        max-width: 235px;
+      }
+
+      /* Tablet (3 columns) */
+      @media (min-width: 768px) {
+        .flex-item {
+          flex: 0 0 calc(33.333% - 8px);
+        }
+      }
+
+      /* Desktop (4 columns) */
+      @media (min-width: 992px) {
+        .flex-item {
+          flex: 0 0 calc(25% - 9px);
+        }
+      }
+
+      /* Large desktop (5 columns) */
+      @media (min-width: 1200px) {
+        .flex-item {
+          flex: 0 0 calc(20% - 9.6px);
+        }
+      }
+
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header class="header container-fluid d-flex align-items-center px-4">
+        <div class="logo me-3">M</div>
+        <div class="title me-auto">POS System</div>
+
+        <div class="search position-relative me-3 d-none d-md-block">
+          <i class="bi bi-search position-absolute"></i>
+          <input type="text" class="form-control ps-5" placeholder="Find Goods">
+        </div>
+
+        <div class="head-actions d-flex align-items-center gap-2">
+          <button class="icon-btn" title="Notifications"><i class="bi bi-bell"></i></button>
+          <button class="icon-btn" title="Settings"><i class="bi bi-gear"></i></button>
+          <button class="icon-btn" title="Theme"><i class="bi bi-moon"></i></button>
+          <button class="pill invisible">New Goal</button>
+        </div>
+      </header>
+
+      <div class="d-flex">
+        <!-- Left Menu - moved outside container-fluid -->
+        <div class="col-auto d-none d-md-block" id="left-menu">
+          <div class="sidebar d-flex flex-column align-items-center">
+            <div class="home bubble active"><i class="bi bi-house"></i></div>
+            <div class="invoices bubble"><i class="bi bi-receipt"></i></div>
+            <div class="orders bubble"><i class="bi bi-box"></i></div>
+            <div class="customers bubble"><i class="bi bi-journal-bookmark"></i></div>
+            <div class="statistics bubble"><i class="bi bi-graph-up"></i></div>
+            <div class="settings bubble"><i class="bi bi-gear"></i></div>
+          </div>
+        </div>
+
+
+        <!-- Content Layout -->
+        <div class="container-fluid py-3" id="main-content">
+          <div class="row">
+
+            <!-- Middle: categories + products - corrected order -->
+            <div class="col-md-8 col-lg-9 order-0" id="product-categories">
+              <div class="categories d-flex gap-3 mb-4">
+                <div class="cat active">
+                  <div><i class="bi bi-egg-fried"></i></div>
+                  <span class="name">Lunch</span>
+                  <span class="meta">8 Options</span>
+                </div>
+                <div class="cat">
+                  <div><i class="bi bi-egg"></i></div>
+                  <span class="name">Salad</span>
+                  <span class="meta">14 Salads</span>
+                </div>
+                <div class="cat">
+                  <div><i class="bi bi-cup-hot"></i></div>
+                  <span class="name">Burger</span>
+                  <span class="meta">5 Burgers</span>
+                </div>
+                <div class="cat">
+                  <div><i class="bi bi-cup-straw"></i></div>
+                  <span class="name">Coffee</span>
+                  <span class="meta">7 Beverages</span>
+                </div>
+                <div class="cat">
+                  <div><i class="bi bi-cake"></i></div>
+                  <span class="name">Dessert</span>
+                  <span class="meta">8 Desserts</span>
+                </div>
+              </div>
+
+
+              <!-- Products Grid - Changed to flex layout -->
+              <div class="d-flex flex-wrap gap-3" id="products-list">
+                <!-- Product Items -->
+                <div class="flex-item" >
+                  <div class="card h-100 p-3">
+                    <div class="food"><span class="plate"></span></div>
+                    <div class="name">T-Bone Stake</div>
+                    <div class="cook">16 mins to cook</div>
+                    <div class="price">$16.50</div>
+                  </div>
+                </div>
+
+                <div class="flex-item" >
+                  <div class="card h-100 p-3">
+                    <div class="food"><span class="plate"></span></div>
+                    <div class="name">Chef's Salmon</div>
+                    <div class="cook">16 mins to cook</div>
+                    <div class="price">$12.40</div>
+                  </div>
+                </div>
+
+                <div class="flex-item" >
+                  <div class="card h-100 p-3">
+                    <div class="food"><span class="plate"></span></div>
+                    <div class="name">Chef's Salmon</div>
+                    <div class="cook">16 mins to cook</div>
+                    <div class="price">$12.40</div>
+                  </div>
+                </div>
+                <div class="flex-item" >
+                  <div class="card h-100 p-3">
+                    <div class="food"><span class="plate"></span></div>
+                    <div class="name">Chef's Salmon</div>
+                    <div class="cook">16 mins to cook</div>
+                    <div class="price">$12.40</div>
+                  </div>
+                </div>
+                <div class="flex-item" >
+                  <div class="card h-100 p-3">
+                    <div class="food"><span class="plate"></span></div>
+                    <div class="name">Chef's Salmon</div>
+                    <div class="cook">16 mins to cook</div>
+                    <div class="price">$12.40</div>
+                  </div>
+                </div>
+                <div class="flex-item" >
+                  <div class="card h-100 p-3">
+                    <div class="food"><span class="plate"></span></div>
+                    <div class="name">Chef's Salmon</div>
+                    <div class="cook">16 mins to cook</div>
+                    <div class="price">$12.40</div>
+                  </div>
+                </div>
+
+
+                <!-- Add more product items as needed -->
+              </div>
+
+            </div>
+
+            <!-- Checkout Summary Panel -->
+            <div id="checkout-summary" class="position-lg-absolute" style="max-width: 380px;">
+              <div class="panel p-3">
+                <!-- Panel content remains the same -->
+                <h3>Current Order</h3>
+                <div class="d-flex justify-content-between text-muted mb-2">
+                  <span></span>
+                  <a href="#" class="text-muted text-decoration-none">Clear All</a>
+                </div>
+
+                <div class="order-line">
+                  <div class="thumb"></div>
+                  <div class="flex-grow-1">
+                    <div class="name text-start">T-Bone Stake</div>
+                    <div class="qty">
+                      <button>-</button><span>2</span><button>+</button>
+                    </div>
+                  </div>
+                  <div class="price-sm">$66.00</div>
+                </div>
+
+                <!-- Other order items... -->
+
+                <div class="summary">
+                  <div class="row"><span>Subtotal</span><span>$100.50</span></div>
+                  <div class="row"><span>Discounts</span><span>-$8.00</span></div>
+                  <div class="row"><span>Tax (12%)</span><span>$11.20</span></div>
+                  <div class="total"><span>Total</span><span>$93.46</span></div>
+                </div>
+
+                <div class="pay mt-3">
+                  <h4>Payment Method</h4>
+                  <div class="row row-cols-3 g-2 mb-3">
+                    <div class="col">
+                      <button class="paybtn active w-100"><i class="bi bi-cash"></i><span>Cash</span></button>
+                    </div>
+                    <div class="col">
+                      <button class="paybtn w-100"><i class="bi bi-credit-card"></i><span>Card</span></button>
+                    </div>
+                    <div class="col">
+                      <button class="paybtn w-100"><i class="bi bi-phone"></i><span>E-Wallet</span></button>
+                    </div>
+                  </div>
+                  <button class="print">Print Bills</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Mobile sidebar -->
+          <div class="d-md-none mt-3">
+            <div class="sidebar d-flex justify-content-between">
+              <div class="bubble active"><i class="bi bi-house"></i></div>
+              <div class="bubble"><i class="bi bi-receipt"></i></div>
+              <div class="bubble"><i class="bi bi-box"></i></div>
+              <div class="bubble"><i class="bi bi-journal-bookmark"></i></div>
+              <div class="bubble"><i class="bi bi-graph-up"></i></div>
+              <div class="bubble"><i class="bi bi-gear"></i></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bootstrap 5 JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+
+    <script>
+      $(document).ready(function() {
+        // Handle sidebar menu clicks
+        $('#left-menu .sidebar .bubble').on('click', function(e) {
+          e.preventDefault();
+
+          // Remove active class from all bubbles
+          $('#left-menu .sidebar .bubble').removeClass('active');
+          // Add active class to clicked bubble
+          $(this).addClass('active');
+
+          // Get the route based on which bubble was clicked
+          let route = '';
+          if ($(this).hasClass('home')) {
+            route = 'bpos/home';
+          } else if ($(this).hasClass('invoices')) {
+            route = 'bpos/invoices';
+          } else if ($(this).hasClass('orders')) {
+            route = 'bpos/orders';
+          } else if ($(this).hasClass('customers')) {
+            route = 'bpos/customers';
+          } else if ($(this).hasClass('statistics')) {
+            route = 'bpos/statistics';
+          } else if ($(this).hasClass('settings')) {
+            route = 'bpos/settings';
+          }
+
+          // Load content via AJAX
+          if (route) {
+            loadContent(route);
+          }
+        });
+
+        // Function to load content via AJAX
+        function loadContent(route) {
+          // Show loading indicator
+          $('#main-content').html('<div class="text-center py-5"><i class="fas fa-spinner fa-spin fa-3x"></i></div>');
+
+          // Make AJAX request
+          $.ajax({
+            url: 'index.php?route=' + route + '&format=json',
+            type: 'get',
+            dataType: 'json',
+            success: function(json) {
+              if (json['output']) {
+                $('#main-content').html(json['output']);
+              }
+            },
+            error: function(xhr, ajaxOptions, thrownError) {
+              console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+              $('#main-content').html('<div class="alert alert-danger">Error loading content</div>');
+            }
+          });
+        }
+
+        // Load home content by default
+       // loadContent('bpos/home');
+      });
+
+    </script>
+  </body>
+</html>
