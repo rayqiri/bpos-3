@@ -1,0 +1,67 @@
+<div id="checkout-summary" class="position-lg-absolute" style="max-width: 380px;">
+  <div class="panel p-3">
+    <h3>Current Order</h3>
+    <div class="d-flex justify-content-between text-muted mb-2">
+      <span></span>
+      <a href="#" id="clear-cart" class="text-muted text-decoration-none">Clear All</a>
+    </div>
+
+    {% if products %}
+    {% for product in products %}
+      <div class="order-line">
+        <div class="thumb">
+          <img src="{{ product.thumb }}" alt="{{ product.name }}" style="width:28px;height:28px;border-radius:50%;">
+        </div>
+        <div class="flex-grow-1">
+          <div class="name text-start">{{ product.name }}</div>
+
+          {# Tampilkan option kalau ada #}
+          {% if product.option %}
+            <div class="text-muted small">
+              {% for option in product.option %}
+                <div>- {{ option.name }}: {{ option.value }}</div>
+              {% endfor %}
+            </div>
+          {% endif %}
+
+          <div class="qty">
+            <button class="qty-minus" data-qty="{{ product.quantity - 1 }}" data-key="{{ product.cart_id }}">-</button>
+            <span>{{ product.quantity }}</span>
+            <button class="qty-plus" data-qty="{{ product.quantity + 1 }}" data-key="{{ product.cart_id }}">+</button>
+          </div>
+        </div>
+        <div class="price-sm">{{ product.total }}</div>
+      </div>
+    {% endfor %}
+  {% else %}
+    <p class="text-muted">No items in cart</p>
+  {% endif %}
+
+    <div class="summary">
+      {% for total in totals %}
+        {% if total.code == 'total' %}
+          <div class="total"><span>{{ total.title }}</span><span>{{ total.value }}</span></div>
+        {% else %}
+          <div class="row"><span>{{ total.title }}</span><span>{{ total.value }}</span></div>
+        {% endif %}
+      {% endfor %}
+    </div>
+
+    <div class="pay mt-3">
+      {% if payment_methods %}
+      <h4>Payment Method</h4>
+      <div class="row row-cols-3 g-2 mb-3">
+        {% for payment_method in payment_methods %}
+        <div class="col">
+          <button class="paybtn w-100" data-code="{{ payment_method.code }}">
+            <i class="bi bi-cash"></i><span>{{ payment_method.title }}</span>
+          </button>
+        </div>
+        {% endfor %}
+      </div>
+      {% endif %}
+      <div class="payment-error-container"></div>
+      <button class="print">Print Bills</button>
+    </div>
+  </div>
+</div>
