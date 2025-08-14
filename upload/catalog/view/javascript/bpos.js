@@ -49,8 +49,8 @@ $(document).ready(function() {
 
                 if (json.success) {
                     console.log(json['order_id']);
-                    loadContent('bpos/invoice&order_id='+ json['order_id']);
-                    //window.location.href = 'index.php?route=bpos/invoice&order_id=' + json['order_id'];
+                    //loadContent('bpos/invoice&order_id='+ json['order_id']);
+                    window.location.href = 'index.php?route=bpos/order/info&order_id=' + json['order_id'];
                 }
             },
             error: function() {
@@ -284,5 +284,5 @@ $(document).ready(function() {
         });
     }
 
-    loadContent('bpos/home');
+    
 });
